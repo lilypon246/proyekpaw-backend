@@ -5,7 +5,6 @@ const bookController = require('../controller/bookController'); // Asumsikan pat
 // Mendapatkan semua buku
 router.get('/', bookController.getAllBooks);
 
-
 // Menghapus buku berdasarkan idBuku
 router.delete('/:idBuku', bookController.deleteBook);
 
