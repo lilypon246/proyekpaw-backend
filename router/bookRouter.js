@@ -11,4 +11,7 @@ router.post('/', bookController.addBook);
 // Menghapus buku berdasarkan idBuku
 router.delete('/:idBuku', bookController.deleteBook);
 
+// Update buku
+router.put('/:idBuku', bookController.updateBook);
+
 module.exports = router;
