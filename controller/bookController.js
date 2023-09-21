@@ -15,14 +15,14 @@ const bookController = {
     // Menghapus satu buku
     deleteBook: async (req, res) => {
         try {
-            const id = req.params.bookID
-            const book = await Book.findOneAndDelete(id)
+            const id = req.params.bookID;
+            const book = await Book.findOneAndDelete({bookID: id});
             res.status(200).json(book);
         }
         catch(error) {
-            res.status(500).json({message: "Server Error", error})
+            res.status(500).json({message: "Server Error", error});
         }
-    }
+    },
 };
 
 module.exports = bookController;
