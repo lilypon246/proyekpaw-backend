@@ -69,6 +69,7 @@ const bookController = {
         try {
             const id = req.params.bookID;
             const book = await Book.findOneAndDelete({ bookID: id });
+            if(!book) return res.status(404).json({ message: "Book not found" }); 
             res.status(200).json(book);
         }
         catch (error) {
