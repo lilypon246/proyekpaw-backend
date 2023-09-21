@@ -5,8 +5,6 @@ const bookController = require('../controller/bookController'); // Asumsikan pat
 // Mendapatkan semua buku
 router.get('/', bookController.getAllBooks);
 
-// Menambahkan buku baru
-router.post('/', bookController.addBook);
 
 // Menghapus buku berdasarkan idBuku
 router.delete('/:idBuku', bookController.deleteBook);
@@ -14,4 +12,6 @@ router.delete('/:idBuku', bookController.deleteBook);
 // Update buku
 router.put('/:idBuku', bookController.updateBook);
 
+// Sort by genre
+router.get('/sort/genre', bookController.getAllBooksSortedByGenre);
 module.exports = router;

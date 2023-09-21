@@ -12,6 +12,16 @@ const bookController = {
         }
     },
 
+
+      // Sort by genre
+      getAllBooksSortedByGenre: async (req, res) => {
+        try {
+            const books = await Book.find().sort({ genre: 1 }); // Mengurutkan berdasarkan genre secara ascending (A-Z)
+            res.status(200).json(books);
+        } catch (error) {
+            res.status(500).json({ message: "Server Error", error });
+        }
+    },
     // Update buku by ID
     updateBook: async (req, res) => {
         const { idBuku } = req.params;
