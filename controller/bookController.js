@@ -35,6 +35,22 @@ const bookController = {
             res.status(500).json({ message: "Server Error", error });
         }
     },
+     // Mendapatkan buku berdasarkan bookID
+     getBookById: async (req, res) => {
+        try {
+            const idBuku = req.params.idBuku;
+            const book = await Book.findOne({ bookID: idBuku });
+    
+            if (!book) {
+                return res.status(404).json({ success: false, message: "Book not found" });
+            }
+    
+            res.status(200).json({ success: true, data: book });
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message });
+        }
+    },
+
       // Sort by genre
       getAllBooksSortedByGenre: async (req, res) => {
         try {

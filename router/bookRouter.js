@@ -10,6 +10,10 @@ router.get('/', bookController.getAllBooks);
 
 // Sort by genre
 router.get('/sort/genre', bookController.getAllBooksSortedByGenre);
+
+// Mendapatkan buku berdasarkan bookID
+router.get('/:idBuku', bookController.getBookById);
+
 // Menghapus buku berdasarkan idBuku
 router.delete('/:idBuku', bookController.deleteBook);
 
