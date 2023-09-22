@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 // Subdocument schema untuk merekam detail buku dalam transaksi
 const bookSchema = new mongoose.Schema({
     book: {
@@ -21,7 +23,7 @@ const transactionSchema = new mongoose.Schema({
         required: true
     },
     employeeID: {
-        type: Number,
+        type: String,
         required: true
     }
 }, { timestamps: true });
