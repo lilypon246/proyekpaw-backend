@@ -6,7 +6,7 @@ const bookController = {
     addBook: async (req, res) => {
         try {
             // Extract book data from the request body
-            const { bookID, title, isbn, price, publisher, genre } = req.body;
+            const { bookID, title, isbn, price, year, publisher, genre } = req.body;
 
             // Create a new book document
             const newBook = await Book.create({
@@ -14,6 +14,7 @@ const bookController = {
                 title,
                 isbn,
                 price,
+                year,
                 publisher,
                 genre,
             });
@@ -34,8 +35,6 @@ const bookController = {
             res.status(500).json({ message: "Server Error", error });
         }
     },
-
-
       // Sort by genre
       getAllBooksSortedByGenre: async (req, res) => {
         try {
@@ -67,7 +66,7 @@ const bookController = {
     // Menghapus satu buku
     deleteBook: async (req, res) => {
         try {
-            const id = req.params.bookID;
+            const id = req.params.idBuku;
             const book = await Book.findOneAndDelete({ bookID: id });
             if(!book) return res.status(404).json({ message: "Book not found" }); 
             res.status(200).json(book);
