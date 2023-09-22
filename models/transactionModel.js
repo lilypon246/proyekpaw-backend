@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 
 // Subdocument schema untuk merekam detail buku dalam transaksi
 const bookSchema = new mongoose.Schema({
-    book: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Book' // Mengacu pada model 'Book'
+    bookID: {
+        type: String,
+        ref: 'Book' // Mengacu pada model 'Book' berdasarkan 'bookID'
     },
     quantity: {
         type: Number,
