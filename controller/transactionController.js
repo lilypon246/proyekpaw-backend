@@ -66,7 +66,7 @@ const transactionController = {
         } catch (err) {
             return res.status(500).json({ message: 'Error retrieving transactions', error: err });
         }
-    }
+    },
     //delete transaction by id
     deleteTransaction: async (req, res) => {
         try {
@@ -78,7 +78,7 @@ const transactionController = {
         catch (error) {
             res.status(500).json({ message: "Server Error", error });
         }
-    }
+    },
 };
 
 module.exports = transactionController;
