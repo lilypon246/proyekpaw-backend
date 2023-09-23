@@ -67,6 +67,18 @@ const transactionController = {
             return res.status(500).json({ message: 'Error retrieving transactions', error: err });
         }
     }
+    //delete transaction by id
+    deleteTransaction: async (req, res) => {
+        try {
+            const { transactionId } = req.params; 
+            const deletedTransaction = await Transaction.findByIdAndDelete(transactionId);
+            if (!deletedTransaction) return res.status(404).json({ message: "Transaction not found" });
+            res.status(200).json(deletedTransaction);
+        } 
+        catch (error) {
+            res.status(500).json({ message: "Server Error", error });
+        }
+    }
 };
 
 module.exports = transactionController;
