@@ -10,6 +10,6 @@ router.post('/', transactionController.createTransaction);
 router.get('/', transactionController.getAllTransactions);
 
 //menghapus transaksi
-router.delete('/',transactionController.deleteTransaction)
+router.delete('/:id',transactionController.deleteTransaction)
 
 module.exports = router;
