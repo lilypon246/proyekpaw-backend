@@ -9,5 +9,7 @@ router.post('/', transactionController.createTransaction);
 //mendapatkan semua transaksi
 router.get('/', transactionController.getAllTransactions);
 
+//menghapus transaksi
+router.delete('/',transactionController.deleteTransaction)
 
 module.exports = router;
