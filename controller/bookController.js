@@ -1,14 +1,11 @@
-const Book = require('../models/bookModel'); // Asumsikan path relatif ini sesuai dengan struktur direktori Anda
+const Book = require('../models/bookModel');
 
 const bookController = {
 
-    //Membuat data buku
-    addBook: async (req, res) => {
+    addBook: async (req, res, next) => {
         try {
-            // Extract book data from the request body
             const { bookID, title, isbn, price, year, publisher, genre } = req.body;
 
-            // Create a new book document
             const newBook = await Book.create({
                 bookID,
                 title,
@@ -19,24 +16,22 @@ const bookController = {
                 genre,
             });
 
-            res.status(201).json(newBook); // Respond with the newly created book
+            res.status(201).json(newBook);
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Server Error', error });
+            next(error);  // Menggantikan bagian error handling dengan next(error)
         }
     },
 
-    // Mendapatkan semua buku
-    getAllBooks: async (req, res) => {
+    getAllBooks: async (req, res, next) => {
         try {
             const books = await Book.find();
             res.status(200).json(books);
         } catch (error) {
-            res.status(500).json({ message: "Server Error", error });
+            next(error);
         }
     },
-     // Mendapatkan buku berdasarkan bookID
-     getBookById: async (req, res) => {
+
+    getBookById: async (req, res, next) => {
         try {
             const idBuku = req.params.idBuku;
             const book = await Book.findOne({ bookID: idBuku });
@@ -47,21 +42,20 @@ const bookController = {
     
             res.status(200).json({ success: true, data: book });
         } catch (error) {
-            res.status(500).json({ success: false, message: error.message });
+            next(error);
         }
     },
 
-      // Sort by genre
-      getAllBooksSortedByGenre: async (req, res) => {
+    getAllBooksSortedByGenre: async (req, res, next) => {
         try {
-            const books = await Book.find().sort({ genre: 1 }); // Mengurutkan berdasarkan genre secara ascending (A-Z)
+            const books = await Book.find().sort({ genre: 1 });
             res.status(200).json(books);
         } catch (error) {
-            res.status(500).json({ message: "Server Error", error });
+            next(error);
         }
     },
-    // Update buku by ID
-    updateBook: async (req, res) => {
+
+    updateBook: async (req, res, next) => {
         const { idBuku } = req.params;
         const updatedBookData = req.body;
 
@@ -74,13 +68,11 @@ const bookController = {
 
             res.json(updatedBook);
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Server Error' });
+            next(error);
         }
     },
 
-    // Menghapus satu buku
-    deleteBook: async (req, res) => {
+    deleteBook: async (req, res, next) => {
         try {
             const id = req.params.idBuku;
             const book = await Book.findOneAndDelete({ bookID: id });
@@ -88,7 +80,7 @@ const bookController = {
             res.status(200).json(book);
         }
         catch (error) {
-            res.status(500).json({ message: "Server Error", error });
+            next(error);
         }
     },
 };

@@ -13,6 +13,9 @@ app.use(express.json()); // Middleware untuk parsing JSON requests
 app.use('/books', bookRouter); // Menggunakan bookRouter untuk endpoint '/books'
 app.use('/transactions', transactionRouter); // Menggunakan transactionRouter untuk endpoint '/transactions'
 
+const errorHandlerMiddleware = require('./middleware/errorHandlerMiddleware');
+app.use(errorHandlerMiddleware);
+
 
 dotenv.config({path:'config.env'})
 const PORT = process.env.port || 8000;
