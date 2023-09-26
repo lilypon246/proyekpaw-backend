@@ -1,5 +1,5 @@
 const express = require('express');
-const dotenv =  require('dotenv');
+const dotenv = require('dotenv');
 
 const connectDB = require('./database/connection');
 
@@ -14,7 +14,7 @@ app.use('/books', bookRouter); // Menggunakan bookRouter untuk endpoint '/books'
 app.use('/transactions', transactionRouter); // Menggunakan transactionRouter untuk endpoint '/transactions'
 
 
-dotenv.config({path:'config.env'})
+dotenv.config()
 const PORT = process.env.port || 8000;
 
 connectDB();

@@ -11,6 +11,9 @@ router.get('/', bookController.getAllBooks);
 // Sort by genre
 router.get('/sort/genre', bookController.getAllBooksSortedByGenre);
 
+// search
+router.get('/search', bookController.searchBook);
+
 // Mendapatkan buku berdasarkan bookID
 router.get('/:idBuku', bookController.getBookById);
 
@@ -19,5 +22,7 @@ router.delete('/:idBuku', bookController.deleteBook);
 
 // Update buku
 router.put('/:idBuku', bookController.updateBook);
+
+
 
 module.exports = router;

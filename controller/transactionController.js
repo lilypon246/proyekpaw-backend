@@ -15,7 +15,7 @@ const transactionController = {
                 }
                 totalPrice += book.price * books[i].quantity;
             }
-
+            
 
             const transaction = new Transaction({
                 idTransaction,
@@ -30,10 +30,10 @@ const transactionController = {
             res.status(400).json({ success: false, message: error.message });
         }
     },
-    getAllTransactions: async (req, res) => {
+    getAllTransactions : async (req, res) => {
         try {
             const transactions = await Transaction.find({});
-
+    
             // Dapatkan semua bookID dari semua transaksi
             const bookIDs = [];
             transactions.forEach(transaction => {
@@ -43,10 +43,10 @@ const transactionController = {
                     }
                 });
             });
-
+    
             // Dapatkan judul buku dari semua bookID yang unik
             const books = await Book.find({ bookID: { $in: bookIDs } });
-
+    
             // Map judul buku ke setiap transaksi
             const mappedTransactions = transactions.map(transaction => {
                 const mappedBooks = transaction.books.map(book => {
@@ -61,42 +61,20 @@ const transactionController = {
                     books: mappedBooks
                 };
             });
-
+    
             res.status(200).json(mappedTransactions);
         } catch (err) {
             return res.status(500).json({ message: 'Error retrieving transactions', error: err });
         }
     },
-    //update transaction by id
-    updateTransaction: async (req, res) => {
-        try {
-            const { idTransaction } = req.params;
-            const updatedData = req.body;
-
-            const updatedTransaction = await Transaction.findByIdAndUpdate(
-                idTransaction,
-                updatedData,
-                { new: true }
-            );
-
-            if (!updatedTransaction) {
-                return res.status(404).json({ message: "Transaction not found" });
-            }
-
-            res.status(200).json({ success: true, data: updatedTransaction });
-        } catch (error) {
-            res.status(500).json({ message: "Server Error", error });
-        }
-    },
-
     //delete transaction by id
     deleteTransaction: async (req, res) => {
         try {
-            const { transactionId } = req.params;
+            const { transactionId } = req.params; 
             const deletedTransaction = await Transaction.findByIdAndDelete(transactionId);
             if (!deletedTransaction) return res.status(404).json({ message: "Transaction not found" });
             res.status(200).json(deletedTransaction);
-        }
+        } 
         catch (error) {
             res.status(500).json({ message: "Server Error", error });
         }

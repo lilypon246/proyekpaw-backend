@@ -6,11 +6,12 @@ const bookController = {
     addBook: async (req, res) => {
         try {
             // Extract book data from the request body
-            const { bookID, title, isbn, price, year, publisher, genre } = req.body;
+            const { bookID, author, title, isbn, price, year, publisher, genre } = req.body;
 
             // Create a new book document
             const newBook = await Book.create({
                 bookID,
+                author,
                 title,
                 isbn,
                 price,
@@ -18,7 +19,6 @@ const bookController = {
                 publisher,
                 genre,
             });
-
             res.status(201).json(newBook); // Respond with the newly created book
         } catch (error) {
             console.error(error);
@@ -35,6 +35,7 @@ const bookController = {
             res.status(500).json({ message: "Server Error", error });
         }
     },
+
      // Mendapatkan buku berdasarkan bookID
      getBookById: async (req, res) => {
         try {
@@ -51,8 +52,8 @@ const bookController = {
         }
     },
 
-      // Sort by genre
-      getAllBooksSortedByGenre: async (req, res) => {
+    // Sort by genre
+    getAllBooksSortedByGenre: async (req, res) => {
         try {
             const books = await Book.find().sort({ genre: 1 }); // Mengurutkan berdasarkan genre secara ascending (A-Z)
             res.status(200).json(books);
@@ -60,8 +61,29 @@ const bookController = {
             res.status(500).json({ message: "Server Error", error });
         }
     },
+
+    searchBook : async (req, res) => {
+        const {title} = req.body;
+        try{
+            const getSpecificBooks = await Book.find(
+                {title: title}, 
+            );
+
+            if (getSpecificBooks.length === 0) {
+                res.status(404).json({ message: `No books found. ${title}`});
+            }else{
+                res.json(getSpecificBooks);
+            }
+        } catch (err) {
+            res.json(err.message);
+            console.log(err.message, req.query);
+        }
+    },
+
+
+
     // Update buku by ID
-    updateBook: async (req, res) => {
+    updateBook : async (req, res) => {
         const { idBuku } = req.params;
         const updatedBookData = req.body;
 
