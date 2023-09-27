@@ -91,12 +91,10 @@ const transactionController = {
           bookID: updatedData.books[i].bookID,
         });
         if (!book) {
-          return res
-            .status(400)
-            .json({
-              success: false,
-              message: `Book with ID ${updatedData.books[i].bookID} not found`,
-            });
+          return res.status(400).json({
+            success: false,
+            message: `Book with ID ${updatedData.books[i].bookID} not found`,
+          });
         }
         updatedTotalPrice += book.price * updatedData.books[i].quantity;
       }
@@ -128,7 +126,7 @@ const transactionController = {
         return res.status(404).json({ message: "Transaction not found" });
       res.status(200).json(deletedTransaction);
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error });
+      next(error);
     }
   },
 };
