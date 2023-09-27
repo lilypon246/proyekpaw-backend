@@ -1,10 +1,9 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-// Subdocument schema untuk merekam detail buku dalam transaksi
 const bookSchema = new mongoose.Schema({
     bookID: {
         type: String,
-        ref: 'Book' // Mengacu pada model 'Book' berdasarkan 'bookID'
+        ref: 'Book'
     },
     quantity: {
         type: Number,
@@ -15,9 +14,9 @@ const bookSchema = new mongoose.Schema({
 const transactionSchema = new mongoose.Schema({
     idTransaction: {
         type: String,
-        required: true
+        unique: true, // Pastikan ID transaksi unik
     },
-    books: [bookSchema], // Menggunakan array untuk merekam detail buku
+    books: [bookSchema],
     totalPrice: {
         type: Number,
         required: true
@@ -27,5 +26,21 @@ const transactionSchema = new mongoose.Schema({
         required: true
     }
 }, { timestamps: true });
+
+// Tambahkan hook pre('save') untuk menghasilkan ID transaksi dengan format yang diinginkan
+transactionSchema.pre('save', async function (next) {
+    if (!this.idTransaction) {
+        try {
+            const count = await this.constructor.countDocuments();
+            this.idTransaction = `TRX${count + 1}`;
+            next();
+        } catch (err) {
+            return next(err);
+        }
+    } else {
+        next();
+    }
+});
+
 
 module.exports = mongoose.model('Transaction', transactionSchema);
