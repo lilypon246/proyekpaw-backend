@@ -61,6 +61,27 @@ const bookController = {
       res.status(500).json({ message: "Server Error", error });
     }
   },
+  //filter berdasarkan genre
+  filterByGenre: async (req, res) => {
+    const genre = req.params.genre;
+
+    if (!genre) {
+        return res.status(400).json({ message: "Please provide a genre to filter by." });
+    }
+
+    try {
+        const booksByGenre = await Book.find({ genre: { $regex: new RegExp("^" + genre + "$", "i") } });
+
+        if (booksByGenre.length === 0) {
+            res.status(404).json({ message: `No books found for the genre: ${genre}` });
+        } else {
+            res.json(booksByGenre);
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+        console.error("Error in filterByGenre:", err.message, req.params);
+    }
+},
 //mencari buku berdasarkan judul contoh "naga" maka buku yang mengandung judul naga akan tertampil
   searchBook: async (req, res) => {
     const { title } = req.body;
